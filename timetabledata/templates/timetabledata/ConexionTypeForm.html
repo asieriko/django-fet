@@ -1,0 +1,12 @@
+{% extends 'timetabledata/base.html' %}
+{% block title %}Timetable Data{% endblock %}
+{% block content %}
+         <form class="form-inline" action="/ConexionTypeForm/" method="post">
+              <div class="form-group mb-2">
+                    {% csrf_token %}
+                    {{ form }}
+                </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <input type="submit" value="Submit" />
+        </form>
+{% endblock %}

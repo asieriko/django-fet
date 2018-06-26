@@ -1,0 +1,14 @@
+{% extends 'timetabledata/base.html' %}
+{% block title %}Conexion Types{% endblock %}
+{% block content %}
+         <form class="form-inline" action="/MultiConexionTypeForm/" method="post">
+                {% csrf_token %}
+                {{ formset.management_form }}
+                <table>
+                    {% for form in formset %}
+                    <tr><td><ul class="list-inline">{{ form.as_ul }}</ul></td></tr>
+                    {% endfor %}
+                </table>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+{% endblock %}

@@ -1,0 +1,8 @@
+<ConstraintActivityPreferredRoom>
+    <Weight_Percentage>100</Weight_Percentage>
+    <Activity_Id>{{activity_id}}</Activity_Id>
+    <Room>{{room}}</Room>
+    <Permanently_Locked>true</Permanently_Locked>
+    <Active>true</Active>
+    <Comments> </Comments>
+</ConstraintActivityPreferredRoom>

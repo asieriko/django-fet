@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>Teachers</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    </head>
+    <body>
+        <h1>Teachers</h1>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Hours</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in teachers %}
+        <tr>
+            <td>{{row.pk}}</td>
+            <td>{{row.name}}</td>
+            <td>{{row.code}}</td>
+            <td>{{row.chours}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    </body>
+</html>

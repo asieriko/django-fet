@@ -1,0 +1,49 @@
+{% extends 'timetabledata/base.html' %}
+{% block title %}Teachers{% endblock %}
+{% block content %}
+        <h1>try ul inline</h1>
+        <h1>render each field as table</h1>
+        <form action="/MultiTeacherForm/" method="post">
+                {% csrf_token %}
+        {{ formset.non_form_errors.as_ul }}
+        <table id="formset" class="form">
+        {% for form in formset.forms %}
+          {% if forloop.first %}
+          <thead><tr>
+            {% for field in form.visible_fields %}
+            <th>{{ field.label|capfirst }}</th>
+            {% endfor %}
+          </tr></thead>
+          {% endif %}
+          <tr>
+          {% for field in form.visible_fields %}
+            <td>
+            {# Include the hidden fields in the form #}
+            {% if forloop.first %}
+              {% for hidden in form.hidden_fields %}
+              {{ hidden }}
+              {% endfor %}
+            {% endif %}
+              {{ field.errors.as_ul }}
+              {{ field }}
+            </td>
+          {% endfor %}
+          </tr>
+        {% endfor %}
+        </table>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <h1>form.as_table</h1>
+         <form action="/MultiTeacherForm/" method="post">
+                {% csrf_token %}
+                {{ formset.management_form }}
+                    {% for form in formset %}
+                     <div class="form-group mb-2">
+                    {{ form.as_table }}
+                    </div>
+                    <br>
+                    {% endfor %}
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <hr>
+{% endblock %}

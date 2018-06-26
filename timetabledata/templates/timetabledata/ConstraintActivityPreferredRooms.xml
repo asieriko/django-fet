@@ -1,0 +1,8 @@
+<ConstraintActivityPreferredRooms>
+    <Weight_Percentage>100</Weight_Percentage>
+    <Activity_Id>{{activity_id}}</Activity_Id>
+    <Number_of_Preferred_Rooms>{{rooms|length}}</Number_of_Preferred_Rooms>{%for room in rooms %}
+    <Preferred_Room>{{room}}</Preferred_Room>{% endfor %}
+    <Active>true</Active>
+    <Comments></Comments>
+</ConstraintActivityPreferredRooms>

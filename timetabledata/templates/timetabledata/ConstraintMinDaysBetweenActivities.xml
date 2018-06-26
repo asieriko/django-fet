@@ -1,0 +1,9 @@
+<ConstraintMinDaysBetweenActivities>
+    <Weight_Percentage>100</Weight_Percentage>
+    <Consecutive_If_Same_Day>true</Consecutive_If_Same_Day>
+    <Number_of_Activities>{{activities|length}}</Number_of_Activities>{% for activity_id in activities %}
+    <Activity_Id>{{activity_id}}</Activity_Id>	{% endfor %}
+    <MinDays>1</MinDays>
+    <Active>true</Active>
+    <Comments> </Comments>
+</ConstraintMinDaysBetweenActivities>

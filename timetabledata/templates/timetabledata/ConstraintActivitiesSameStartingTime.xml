@@ -1,0 +1,7 @@
+<ConstraintActivitiesSameStartingTime>
+    <Weight_Percentage>100</Weight_Percentage>
+    <Number_of_Activities>{{activities|length}}</Number_of_Activities>{% for activity_id in activities %}
+    <Activity_Id>{{activity_id}}</Activity_Id>	{% endfor %}
+    <Active>true</Active>
+    <Comments> </Comments>
+</ConstraintActivitiesSameStartingTime> 

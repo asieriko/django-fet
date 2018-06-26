@@ -1,0 +1,80 @@
+{% extends 'timetabledata/base.html' %}
+{% block title %}Main Drive to FET{% endblock %}
+{% block content %}
+        <h1>Get Activities Data</h1>
+        <div class="row">
+          <div class="col-sm-4">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Load Drive Data</h5>
+            <p class="card-text">Loads data from Google Drive</p>
+            <a href="{% url 'drivedata' %}" class="btn btn-primary">Load</a>
+          </div>
+        </div>
+        </div>
+        <div class="col-sm-4">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Generate Dep</h5>
+            <p class="card-text">Generate a Department Meeting for each teacher/dept in Data</p>
+            <a id='gendepm' href="#" class="btn btn-primary ajax">Generate</a>
+          </div>
+        </div>
+        </div
+        <div class="col-sm-6">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Generate Activities</h5>
+            <p class="card-text">Generate activities from Data</p>
+            <a id='genact' href="#" class="btn btn-primary ajax">Generate</a>
+          </div>
+        </div>
+        </div>
+        </div>
+        <h1>Get Teachers Data</h1>
+        <div class="row">
+        <div class="col-sm-6">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Load Drive Teachers Data</h5>
+            <p class="card-text">Loads teacher data from Google Drive</p>
+            <a href="{% url 'driveteachers' %}" class="btn btn-primary">Load</a>
+          </div>
+        </div>
+        </div>
+        </div>
+        <h1>Delete Data</h1>
+        <div class="row">
+        <div class="col-sm-6">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Delete Data</h5>
+            <p class="card-text">Deletes all data</p>
+            <a id='delete' href="#" class="btn btn-danger ajax">Delete</a>
+          </div>
+        </div>
+        </div>
+        </div>
+                <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script>
+        $('.ajax').click(function(event){
+           event.preventDefault();
+           $.ajax({
+               method:'POST',
+               url: '{% url 'ajax' %}',
+               data: {
+                   'action': this.id,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+               },
+               datatype: 'json',
+               success: function(response){
+                  alert(response);
+               }
+               });
+        });
+        </script>
+{% endblock %}

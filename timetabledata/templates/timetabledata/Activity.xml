@@ -1,0 +1,11 @@
+<Activity>{% for teacher in teachers %}
+    <Teacher>{{teacher}}</Teacher>	{% endfor %}
+            <Subject>{{subject}}</Subject>{% for student in students %}
+    <Students>{{student}}</Students>	{% endfor %}
+            <Duration>{{duration}}</Duration>
+            <Total_Duration>{{total_duration}}</Total_Duration>
+            <Id>{{activity_id}}</Id>
+            <Activity_Group_Id>{{group_id}}</Activity_Group_Id>
+            <Active>true</Active>
+            <Comments> </Comments>
+</Activity>

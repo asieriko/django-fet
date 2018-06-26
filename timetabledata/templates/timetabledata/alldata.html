@@ -1,0 +1,110 @@
+{% extends 'timetabledata/base.html' %}
+{% block title %}Timetable Drive Data{% endblock %}
+{% block content %}
+<style type="text/css">
+            body {
+              padding : 10px ;
+            }
+
+            #exTab2 h3 {
+              color : white;
+              background-color: red;
+              padding : 5px 15px;
+            }
+        </style>
+        <div id="exTab2" class="container">	
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a  href="#1" data-toggle="tab">Data</a>
+                </li>
+                <li><a href="#2" data-toggle="tab">Errors</a>
+                </li>
+            </ul>
+
+            <div class="tab-content ">
+                <div class="tab-pane" id="2">
+                    <h3>Errors</h3>
+                      <table class="table table-striped">
+                          <thead>
+                          <tr>
+                            <th>Eredua</th>
+                            <th>Mintegia</th>
+                            <th>Irakaslea</th>
+                            <th>Taldea</th>
+                            <th>Ikasgaia</th>
+                            <th>Orduak</th>
+                            <th>Aula</th>
+                            <th>AgrupacionEDUCA</th>
+                            <th>Loturak</th>
+                            <th>Tipo</th>
+                            <th>Oharrak</th>
+                            <th>OharrakMintegitik</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for row in errors %}
+                        <tr>
+                            <td>{{row.1.Eredua}}</td>
+                            <td>{{row.1.Mintegia}}</td>
+                            <td>{{row.1.Irakaslea}}</td>
+                            <td>{{row.1.Taldea}}</td>
+                            <td>{{row.1.Ikasgaia}}</td>
+                            <td>{{row.1.Orduak}}</td>
+                            <td>{{row.1.Aula}}</td>
+                            <td>{{row.1.AgrupacionEDUCA}}</td>
+                            <td>{{row.1.Loturak}}</td>
+                            <td>{{row.1.Tipo}}</td>
+                            <td>{{row.1.Oharrak}}</td>
+                            <td>{{row.1.OharrakMintegitik}}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane active" id="1">
+                    <h3>Data</h3>
+                    <table class="table table-striped">
+                      <thead>
+                      <tr>
+                        <th>Eredua</th>
+                        <th>Mintegia</th>
+                        <th>Irakaslea</th>
+                        <th>Taldea</th>
+                        <th>Ikasgaia</th>
+                        <th>Orduak</th>
+                        <th>Aula</th>
+                        <th>AgrupacionEDUCA</th>
+                        <th>Loturak</th>
+                        <th>Tipo</th>
+                        <th>Oharrak</th>
+                        <th>OharrakMintegitik</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in rlist %}
+                    <tr>
+                        <td>{{row.Eredua}}</td>
+                        <td>{{row.Mintegia}}</td>
+                        <td>{{row.Irakaslea}}</td>
+                        <td>{{row.Taldea}}</td>
+                        <td>{{row.Ikasgaia}}</td>
+                        <td>{{row.Orduak}}</td>
+                        <td>{{row.Aula}}</td>
+                        <td>{{row.AgrupacionEDUCA}}</td>
+                        <td>{{row.Loturak}}</td>
+                        <td>{{row.Tipo}}</td>
+                        <td>{{row.Oharrak}}</td>
+                        <td>{{row.OharrakMintegitik}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+{% endblock %}

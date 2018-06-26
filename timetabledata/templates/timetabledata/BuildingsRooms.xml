@@ -1,0 +1,15 @@
+<Buildings_List>{% for building in buildings %}
+    <Building>
+            <Name>{{building}}</Name>
+            <Comments></Comments>
+    </Building>{% endfor %}
+</Buildings_List>
+
+<Rooms_List>	{% for room in rooms %}
+    <Room>
+            <Name>{{room.0}}</Name>
+            <Building>{{room.2}}</Building>
+            <Capacity>{{room.1}}</Capacity>
+            <Comments></Comments>
+    </Room>    {% endfor %}
+</Rooms_List>
