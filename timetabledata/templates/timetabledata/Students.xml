@@ -1,0 +1,17 @@
+<Students_List>{% for course, groups in students.items %}
+    <Year>
+        <Name>{{course}}</Name>
+        <Number_of_Students>0</Number_of_Students>
+        <Comments></Comments>{% for group, subgroups in groups.items %}
+        <Group>
+            <Name>{{group}}</Name>
+            <Number_of_Students>0</Number_of_Students>
+            <Comments></Comments>{% for subgroup in subgroups %}
+            <Subgroup>
+                <Name>{{subgroup}}</Name>
+                <Number_of_Students>0</Number_of_Students>
+                <Comments></Comments>
+            </Subgroup>{% endfor %}
+        </Group>{% endfor %}
+    </Year>{% endfor %}
+</Students_List>

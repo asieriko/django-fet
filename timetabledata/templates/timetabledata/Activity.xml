@@ -1,7 +1,7 @@
 <Activity>{% for teacher in teachers %}
     <Teacher>{{teacher}}</Teacher>	{% endfor %}
-            <Subject>{{subject}}</Subject>{% for student in students %}
-    <Students>{{student}}</Students>	{% endfor %}
+            <Subject>{{subject}}</Subject>
+    		<Students>{{students}}</Students>
             <Duration>{{duration}}</Duration>
             <Total_Duration>{{total_duration}}</Total_Duration>
             <Id>{{activity_id}}</Id>

@@ -1,0 +1,6 @@
+<Subjects_List>{% for subject in subjects %}
+    <Subject>
+            <Name>{{subject}}</Name>
+            <Comments></Comments>
+    </Subject>{% endfor %}
+</Subjects_List>

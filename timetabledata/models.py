@@ -1,7 +1,7 @@
 from django.db import models, IntegrityError
 from django.db.models.fields import IntegerField
-from timetabledata.util.renderxml import renderSameTime, renderBuildingRooms, renderActivity
-
+from timetabledata.util.renderxml import renderSameTime, renderBuildingRooms, renderActivity, renderSubjects, renderTeachers, renderStudents
+from collections import OrderedDict
 # Create your models here.
 
 
@@ -116,7 +116,44 @@ class GroupManager(models.Manager):
         group = self.create(name=name, course=name[0])
         return group
 
-
+    def get_groupings(self,group):
+        groupings = Groupings.objects.filter(group=group)
+        for gp in groupings:
+            yield(gp)
+            
+    def subgroup(self,group,grouping):
+        return group.name + '_' + grouping.name
+        
+    def get_subgroups(self,group):
+        groupings = self.get_groupings(group)
+        for gp in groupings:
+            yield(self.subgroup(group, gp))
+            
+    def create_students_xml(self):
+        courses = Group.objects.all().values_list('course',flat=True).distinct()
+        students = OrderedDict()
+        for course in courses:
+            students[course] = OrderedDict()  # only to avoid the test failing
+            groups = Group.objects.filter(course=course)
+            for group in groups:
+                gstudents = []
+                subgroups = Group.objects.get_subgroups(group)
+                for subgroup in subgroups:
+                    gstudents.append(subgroup)
+                    students[course][group.name] = gstudents
+            
+            groupings = Groupings.objects.filter(course=course)
+            for grouping in groupings:
+                gstudents = []
+                groups = grouping.group.all()
+                for group in groups:
+                    subgroups = Group.objects.get_subgroups(group)
+                    for subgroup in subgroups:
+                        gstudents.append(subgroup)
+                students[course][grouping.name] = gstudents
+        return renderStudents(students)
+   
+            
 class Group(models.Model):
     name = models.CharField(max_length=10)
     course = models.CharField(max_length=10)
@@ -128,7 +165,15 @@ class Group(models.Model):
 
     def __str__(self):
         return self.name + "(" + self.course + ")"
+ 
 
+class Groupings(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    group = models.ManyToManyField(Group)
+    course = models.CharField(max_length=10)
+    
+    def __str__(self):
+        return self.name
 
 class DataManager(models.Manager):
     def create_data(self, row):
@@ -160,6 +205,10 @@ class DataManager(models.Manager):
             if row['AgrupacionEDUCA'] != '':
                 #print("not:", row['AgrupacionEDUCA'])
                 record.Grouping = row['AgrupacionEDUCA']
+                gp, gc = Groupings.objects.get_or_create(name=row['AgrupacionEDUCA'], course=row['Maila'])
+                for group in record.Group.all():
+                    gp.group.add(group)
+                
         record.save()
         if row["Aula"] not in ['', '-']:
             room, rc = Room.objects.get_or_create(name=row['Aula'],
@@ -205,7 +254,21 @@ class DataManager(models.Manager):
                 d.Room.add(r)
             d.save()
 
-
+        
+    def create_subjects_xml(self):
+        subjects = Data.objects.all().values('Subject').distinct()
+        slist = []
+        for subject in subjects:
+            slist.append(subject['Subject'])
+        return renderSubjects(slist) 
+    
+    def create_teachers_xml(self):
+        teachers = Data.objects.all().values('Teacher').distinct()
+        tlist = []
+        for teacher in teachers:
+            tlist.append(Teacher.objects.get(pk=teacher['Teacher']).name)
+        return renderTeachers(tlist)
+         
 class ConexionTypeManager(models.Manager):
     def create_ctype(self, row):
         if row['Tipo'] == 'bilera':
@@ -265,11 +328,16 @@ class Tag(models.Model):
 class ActivityManager(models.Manager):
     def create_activities(self, data):
         tduration = data.Hours
+        if data.Grouping is None:
+            students = data.Group.first().name
+        else:
+            students = data.Grouping
         act = Activity.objects.create(
             Activity_Id=0,
             Group_Id=0,
             Duration=1,
             Subject=data.Subject,
+            Students=students,
             Data=data)
         act.save()
         act.Activity_Id = act.pk
@@ -281,6 +349,7 @@ class ActivityManager(models.Manager):
                 Group_Id=act.Group_Id,
                 Duration=1,
                 Subject=data.Subject,
+                Students=students,
                 Data=data)
             eact.Activity_Id = eact.pk
             eact.save()
@@ -308,7 +377,6 @@ class ActivityManager(models.Manager):
     
     def create_activity_XML(self):
         activities = Activity.objects.all()
-        xml = []
         for activity in activities:
             context = {
                 'activity_id': activity.Activity_Id,
@@ -319,8 +387,7 @@ class ActivityManager(models.Manager):
                 'teachers': [teacher.name for teacher in activity.Teachers.all()],
                 'students': activity.Students      
             }
-            xml.append(renderActivity(context))
-        return xml
+            yield(renderActivity(context))
 
 class Activity(models.Model):
     Activity_Id = models.IntegerField()
@@ -339,15 +406,13 @@ class Activity(models.Model):
 class ActivityConexionManager(models.Manager):
     def generate_conexion_xml(self):
         subconexions = ActivityConexion.objects.all().values('subconexion').distinct()
-        xml = []
         for subconexion in subconexions:
             acs = ActivityConexion.objects.filter(subconexion=subconexion['subconexion'])
             for ac in acs:
                 stactivities = []
                 for a in ac.activity.all():
                     stactivities.append(a.Activity_Id)
-                xml.append(renderSameTime(stactivities))
-        return xml
+                yield(renderSameTime(stactivities))
 
 class ActivityConexion(models.Model):
     conexion = models.CharField(max_length=50)

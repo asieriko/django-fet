@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_nose',
     'debug_toolbar',
     'timetabledata',
 ]
@@ -123,3 +124,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 INTERNAL_IPS = ('127.0.0.1',)
+
+#For django-nose
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'

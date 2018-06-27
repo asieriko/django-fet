@@ -1,3 +1,9 @@
+# Added by me
+.directory
+#eclipse settings?
+.project
+.pydevproject
+.settings/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -46,6 +52,8 @@ coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
+#Added by me:
+coverage-report/
 
 # Translations
 *.mo
