@@ -67,6 +67,17 @@ def renderStudents(students):
     return template.render(context)
 
 def xmldefinition():
+    import xml.etree.ElementTree as ET
+    tree = ET.parse('/home/asier/Hezkuntza/SGCC-Erregistroak-17-18/PR01 Matriculacion y planificacion docente y servicios complementarios/PR0102 Planificacion/Horarios/Horario1718.fet')
+    root = tree.getroot()
+    for child in root:
+        print(child.tag)
+        tags = set()
+        for child2 in child:
+            tags.add(child2.tag)
+            #print(child2.tag, child2.attrib)
+        for t in tags:
+            print("\t",t)
     '''
     Institution_Name
     Comments
